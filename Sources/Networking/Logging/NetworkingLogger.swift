@@ -11,7 +11,7 @@ class NetworkingLogger {
     
     var logLevels = NetworkingLogLevel.off
     
-    var logHandler: LogFunction = { message in
+    var logHandler: NetworkingLogFunction = { message in
         print(message)
     }
     

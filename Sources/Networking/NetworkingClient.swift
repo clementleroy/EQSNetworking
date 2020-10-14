@@ -24,12 +24,12 @@ public struct NetworkingClient {
         set { logger.logLevels = newValue }
     }
     
-    public var logHandler: LogFunction {
+    public var logHandler: NetworkingLogFunction {
         get { return logger.logHandler }
         set { logger.logHandler = newValue }
     }
 
-    private let logger = NetworkingLogger()
+    private var logger = NetworkingLogger()
 
     public init(baseURL: String) {
         self.baseURL = baseURL
@@ -37,4 +37,4 @@ public struct NetworkingClient {
     
 }
 
-public typealias LogFunction = (_ message: String) -> Void
+public typealias NetworkingLogFunction = (_ message: String) -> Void
