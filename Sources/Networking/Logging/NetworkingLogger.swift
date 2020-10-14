@@ -8,21 +8,25 @@
 import Foundation
 
 class NetworkingLogger {
-
+    
     var logLevels = NetworkingLogLevel.off
-
+    
+    var logHandler: LogFunction = { message in
+        print(message)
+    }
+    
     func log(request: URLRequest) {
         guard logLevels != .off else {
             return
         }
         if let verb = request.httpMethod,
-            let url = request.url {
-            print("\(verb) '\(url.absoluteString)'")
+           let url = request.url {
+            logHandler("\(verb) '\(url.absoluteString)'")
             logHeaders(request)
             logBody(request)
         }
     }
-
+    
     func log(response: URLResponse, data: Data) {
         guard logLevels != .off else {
             return
@@ -32,29 +36,29 @@ class NetworkingLogger {
         }
         if logLevels == .debug {
             if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
-                print(json)
+                logHandler(json)
             }
         }
     }
-
+    
     private func logHeaders(_ urlRequest: URLRequest) {
         if let allHTTPHeaderFields = urlRequest.allHTTPHeaderFields {
             for (key, value) in allHTTPHeaderFields {
-                print("  \(key) : \(value)")
+                logHandler("  \(key) : \(value)")
             }
         }
     }
-
+    
     private func logBody(_ urlRequest: URLRequest) {
         if let body = urlRequest.httpBody,
-            let str = String(data: body, encoding: .utf8) {
-            print("  HttpBody : \(str)")
+           let str = String(data: body, encoding: .utf8) {
+            logHandler("  HttpBody : \(str)")
         }
     }
-
+    
     private func logStatusCodeAndURL(_ urlResponse: HTTPURLResponse) {
         if let url = urlResponse.url {
-            print("\(urlResponse.statusCode) '\(url.absoluteString)'")
+            logHandler("\(urlResponse.statusCode) '\(url.absoluteString)'")
         }
     }
 }

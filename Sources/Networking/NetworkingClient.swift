@@ -23,10 +23,18 @@ public struct NetworkingClient {
         get { return logger.logLevels }
         set { logger.logLevels = newValue }
     }
+    
+    public var logHandler: LogFunction {
+        get { return logger.logHandler }
+        set { logger.logHandler = newValue }
+    }
 
     private let logger = NetworkingLogger()
 
     public init(baseURL: String) {
         self.baseURL = baseURL
     }
+    
 }
+
+public typealias LogFunction = (_ message: String) -> Void
