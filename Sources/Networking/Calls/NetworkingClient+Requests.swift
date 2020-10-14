@@ -33,7 +33,7 @@ public extension NetworkingClient {
     internal func request(_ httpVerb: HTTPVerb, _ route: String, params: Params = Params()) -> NetworkingRequest {
         let req = NetworkingRequest()
         req.baseURL = baseURL
-        req.logLevels = logLevels
+        req.logger = logger
         req.headers = headers
         req.httpVerb = httpVerb
         req.route = route

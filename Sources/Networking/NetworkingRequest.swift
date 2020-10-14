@@ -17,11 +17,7 @@ public class NetworkingRequest: NSObject {
     public var params = Params()
     var headers = [String: String]()
     var multipartData: [MultipartData]?
-    var logLevels: NetworkingLogLevel {
-        get { return logger.logLevels }
-        set { logger.logLevels = newValue }
-    }
-    private let logger = NetworkingLogger()
+    var logger: NetworkingLogger?
     var timeout: TimeInterval?
     let progressPublisher = PassthroughSubject<Progress, Error>()
 
@@ -31,13 +27,13 @@ public class NetworkingRequest: NSObject {
             return Fail(error: NetworkingError.unableToParseResponse as Error)
                 .eraseToAnyPublisher()
         }
-        logger.log(request: urlRequest)
+        logger?.log(request: urlRequest)
 
         let config = URLSessionConfiguration.default
         let urlSession = URLSession(configuration: config, delegate: self, delegateQueue: nil)
         let callPublisher: AnyPublisher<(Data?, Progress), Error> = urlSession.dataTaskPublisher(for: urlRequest)
             .tryMap { (data: Data, response: URLResponse) -> Data in
-                self.logger.log(response: response, data: data)
+                self.logger?.log(response: response, data: data)
                 if let httpURLResponse = response as? HTTPURLResponse {
                     if !(200...299 ~= httpURLResponse.statusCode) {
                         var error = NetworkingError(httpStatusCode: httpURLResponse.statusCode)
@@ -73,13 +69,13 @@ public class NetworkingRequest: NSObject {
             return Fail(error: NetworkingError.unableToParseResponse as Error)
                 .eraseToAnyPublisher()
         }
-        logger.log(request: urlRequest)
+        logger?.log(request: urlRequest)
 
         let config = URLSessionConfiguration.default
         let urlSession = URLSession(configuration: config, delegate: self, delegateQueue: nil)
         return urlSession.dataTaskPublisher(for: urlRequest)
             .tryMap { (data: Data, response: URLResponse) -> Data in
-                self.logger.log(response: response, data: data)
+                self.logger?.log(response: response, data: data)
                 if let httpURLResponse = response as? HTTPURLResponse {
                     if !(200...299 ~= httpURLResponse.statusCode) {
                         var error = NetworkingError(httpStatusCode: httpURLResponse.statusCode)

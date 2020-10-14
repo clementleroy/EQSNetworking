@@ -29,7 +29,7 @@ public struct NetworkingClient {
         set { logger.logHandler = newValue }
     }
 
-    private var logger = NetworkingLogger()
+    var logger = NetworkingLogger()
 
     public init(baseURL: String) {
         self.baseURL = baseURL
