@@ -10,7 +10,7 @@ public struct NetworkingClient {
      
      */
     public var defaultCollectionParsingKeyPath: String?
-    let baseURL: String
+    public var baseURL: String
     public var headers = [String: String]()
     public var parameterEncoding = ParameterEncoding.urlEncoded
 
