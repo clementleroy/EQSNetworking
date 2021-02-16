@@ -9,24 +9,69 @@ import Foundation
 import Combine
 
 public extension NetworkingClient {
-
+    
     func get(_ route: String, params: Params = Params()) -> AnyPublisher<Data, Error> {
-        request(.get, route, params: params).publisher()
+        token
+            .first()
+            .handleEvents(receiveOutput: { token in
+                self.headers["Authorization"] = token
+            })
+            .setFailureType(to: Error.self)
+            .flatMap { _ in
+                self.request(.get, route, params: params).publisher()
+            }
+            .eraseToAnyPublisher()
     }
-
+    
     func post(_ route: String, params: Params = Params()) -> AnyPublisher<Data, Error> {
-        request(.post, route, params: params).publisher()
+        token
+            .first()
+            .handleEvents(receiveOutput: { token in
+                self.headers["Authorization"] = token
+            })
+            .setFailureType(to: Error.self)
+            .flatMap { _ in
+                self.request(.post, route, params: params).publisher()
+            }
+            .eraseToAnyPublisher()
     }
-
+    
     func put(_ route: String, params: Params = Params()) -> AnyPublisher<Data, Error> {
-        request(.put, route, params: params).publisher()
+        token
+            .first()
+            .handleEvents(receiveOutput: { token in
+                self.headers["Authorization"] = token
+            })
+            .setFailureType(to: Error.self)
+            .flatMap { _ in
+                self.request(.put, route, params: params).publisher()
+            }
+            .eraseToAnyPublisher()
     }
-
+    
     func patch(_ route: String, params: Params = Params()) -> AnyPublisher<Data, Error> {
-        request(.patch, route, params: params).publisher()
+        token
+            .first()
+            .handleEvents(receiveOutput: { token in
+                self.headers["Authorization"] = token
+            })
+            .setFailureType(to: Error.self)
+            .flatMap { _ in
+                self.request(.patch, route, params: params).publisher()
+            }
+            .eraseToAnyPublisher()
     }
-
+    
     func delete(_ route: String, params: Params = Params()) -> AnyPublisher<Data, Error> {
-        request(.delete, route, params: params).publisher()
+        token
+            .first()
+            .handleEvents(receiveOutput: { token in
+                self.headers["Authorization"] = token
+            })
+            .setFailureType(to: Error.self)
+            .flatMap { _ in
+                self.request(.delete, route, params: params).publisher()
+            }
+            .eraseToAnyPublisher()
     }
 }

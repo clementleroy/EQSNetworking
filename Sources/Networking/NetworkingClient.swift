@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-public struct NetworkingClient {
+public class NetworkingClient {
 
     /**
         Instead of using the same keypath for every call eg: "collection",
@@ -13,6 +13,8 @@ public struct NetworkingClient {
     public var baseURL: String
     public var headers = [String: String]()
     public var parameterEncoding = ParameterEncoding.urlEncoded
+    
+    public var token: PassthroughSubject<String?, Never>
 
     /**
         Prints network calls to the console.
@@ -31,8 +33,9 @@ public struct NetworkingClient {
 
     var logger = NetworkingLogger()
 
-    public init(baseURL: String) {
+    public init(baseURL: String, token: PassthroughSubject<String?, Never>) {
         self.baseURL = baseURL
+        self.token = token
     }
     
 }
