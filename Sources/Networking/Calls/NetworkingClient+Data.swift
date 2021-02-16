@@ -16,7 +16,6 @@ public extension NetworkingClient {
             .handleEvents(receiveOutput: { token in
                 self.headers["Authorization"] = token
             })
-            .setFailureType(to: Error.self)
             .flatMap { _ in
                 self.request(.get, route, params: params).publisher()
             }
@@ -29,7 +28,6 @@ public extension NetworkingClient {
             .handleEvents(receiveOutput: { token in
                 self.headers["Authorization"] = token
             })
-            .setFailureType(to: Error.self)
             .flatMap { _ in
                 self.request(.post, route, params: params).publisher()
             }
@@ -42,7 +40,6 @@ public extension NetworkingClient {
             .handleEvents(receiveOutput: { token in
                 self.headers["Authorization"] = token
             })
-            .setFailureType(to: Error.self)
             .flatMap { _ in
                 self.request(.put, route, params: params).publisher()
             }
@@ -55,7 +52,6 @@ public extension NetworkingClient {
             .handleEvents(receiveOutput: { token in
                 self.headers["Authorization"] = token
             })
-            .setFailureType(to: Error.self)
             .flatMap { _ in
                 self.request(.patch, route, params: params).publisher()
             }
@@ -68,7 +64,6 @@ public extension NetworkingClient {
             .handleEvents(receiveOutput: { token in
                 self.headers["Authorization"] = token
             })
-            .setFailureType(to: Error.self)
             .flatMap { _ in
                 self.request(.delete, route, params: params).publisher()
             }

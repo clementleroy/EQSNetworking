@@ -13,7 +13,7 @@ import Combine
 import Networking
 
 final class MultipartRequestTests: XCTestCase {
-    let baseClient: NetworkingClient = NetworkingClient(baseURL: "https://example.com/", token: .init())
+    let baseClient: NetworkingClient = NetworkingClient(baseURL: "https://example.com/", token: Just("").setFailureType(to: Error.self).eraseToAnyPublisher())
     let route = "/api/test"
 
     func testRequestGenerationWithSingleFile() {

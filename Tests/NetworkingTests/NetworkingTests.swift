@@ -21,7 +21,7 @@ final class NetworkingTests: XCTestCase {
 //        let exp9 = expectation(description: "call")
 //
         // Create client.
-        let client = NetworkingClient(baseURL: "https://jsonplaceholder.typicode.com", token: .init())
+        let client = NetworkingClient(baseURL: "https://jsonplaceholder.typicode.com", token: Just("").setFailureType(to: Error.self).eraseToAnyPublisher())
 
         client.get("/posts/1").sink(receiveCompletion: { _ in }, receiveValue: { (json: Any) in
             print(json)

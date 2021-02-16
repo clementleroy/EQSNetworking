@@ -14,7 +14,7 @@ public class NetworkingClient {
     public var headers = [String: String]()
     public var parameterEncoding = ParameterEncoding.urlEncoded
     
-    public var token: PassthroughSubject<String?, Never>
+    public var token: AnyPublisher<String?, Error>
 
     /**
         Prints network calls to the console.
@@ -33,7 +33,7 @@ public class NetworkingClient {
 
     var logger = NetworkingLogger()
 
-    public init(baseURL: String, token: PassthroughSubject<String?, Never>) {
+    public init(baseURL: String, token: AnyPublisher<String?, Error>) {
         self.baseURL = baseURL
         self.token = token
     }
