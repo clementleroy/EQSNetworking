@@ -14,8 +14,6 @@ public class NetworkingClient {
     public var headers = [String: String]()
     public var parameterEncoding = ParameterEncoding.urlEncoded
     
-    public var token: AnyPublisher<String?, Error>
-
     /**
         Prints network calls to the console.
         Values Available are .None, Calls and CallsAndResponses.
@@ -33,9 +31,8 @@ public class NetworkingClient {
 
     var logger = NetworkingLogger()
 
-    public init(baseURL: String, token: AnyPublisher<String?, Error>) {
+    public init(baseURL: String) {
         self.baseURL = baseURL
-        self.token = token
     }
     
 }

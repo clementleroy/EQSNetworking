@@ -11,62 +11,22 @@ import Combine
 public extension NetworkingClient {
     
     func get(_ route: String, params: Params = Params()) -> AnyPublisher<Data, Error> {
-        token
-            .first()
-            .handleEvents(receiveOutput: { token in
-                self.headers["Authorization"] = token
-            })
-            .flatMap { _ in
-                self.request(.get, route, params: params).publisher()
-            }
-            .eraseToAnyPublisher()
+        request(.get, route, params: params).publisher()
     }
     
     func post(_ route: String, params: Params = Params()) -> AnyPublisher<Data, Error> {
-        token
-            .first()
-            .handleEvents(receiveOutput: { token in
-                self.headers["Authorization"] = token
-            })
-            .flatMap { _ in
-                self.request(.post, route, params: params).publisher()
-            }
-            .eraseToAnyPublisher()
+        request(.post, route, params: params).publisher()
     }
     
     func put(_ route: String, params: Params = Params()) -> AnyPublisher<Data, Error> {
-        token
-            .first()
-            .handleEvents(receiveOutput: { token in
-                self.headers["Authorization"] = token
-            })
-            .flatMap { _ in
-                self.request(.put, route, params: params).publisher()
-            }
-            .eraseToAnyPublisher()
+        request(.put, route, params: params).publisher()
     }
     
     func patch(_ route: String, params: Params = Params()) -> AnyPublisher<Data, Error> {
-        token
-            .first()
-            .handleEvents(receiveOutput: { token in
-                self.headers["Authorization"] = token
-            })
-            .flatMap { _ in
-                self.request(.patch, route, params: params).publisher()
-            }
-            .eraseToAnyPublisher()
+        request(.patch, route, params: params).publisher()
     }
     
     func delete(_ route: String, params: Params = Params()) -> AnyPublisher<Data, Error> {
-        token
-            .first()
-            .handleEvents(receiveOutput: { token in
-                self.headers["Authorization"] = token
-            })
-            .flatMap { _ in
-                self.request(.delete, route, params: params).publisher()
-            }
-            .eraseToAnyPublisher()
+        request(.delete, route, params: params).publisher()
     }
 }

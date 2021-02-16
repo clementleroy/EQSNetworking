@@ -10,8 +10,10 @@ import Networking
 import Combine
 
 struct ConcreteApi: Api, NetworkingService {
+    
+    var tokenSubject: AnyPublisher<String?, Error>?
 
-    let network: NetworkingClient = NetworkingClient(baseURL: "https://jsonplaceholder.typicode.com", token: Just("").setFailureType(to: Error.self).eraseToAnyPublisher())
+    let network: NetworkingClient = NetworkingClient(baseURL: "https://jsonplaceholder.typicode.com")
 
     func fetchPost() -> AnyPublisher<Post, Error> {
         get("/posts/1")
