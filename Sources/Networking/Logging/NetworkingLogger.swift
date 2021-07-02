@@ -44,8 +44,9 @@ class NetworkingLogger {
                 let jsonString = String(data: json, encoding: .utf8) {
                 logString.append("JSON: \(jsonString)")
             }
+            logHandler(logString)
         }
-        
+
     }
     
 }
