@@ -15,52 +15,37 @@ class NetworkingLogger {
         print(message)
     }
     
-    func log(request: URLRequest) {
+    func log(request: URLRequest, response: URLResponse, data: Data) {
         guard logLevels != .off else {
             return
         }
+        
         if let verb = request.httpMethod,
            let url = request.url {
-            logHandler("\(verb) '\(url.absoluteString)'")
-            logHeaders(request)
-            logBody(request)
-        }
-    }
-    
-    func log(response: URLResponse, data: Data) {
-        guard logLevels != .off else {
-            return
-        }
-        if let response = response as? HTTPURLResponse {
-            logStatusCodeAndURL(response)
-        }
-        if logLevels == .debug {
+            var logString = "------------------------\n"
+            logString.append("Request: \(verb) '\(url.absoluteString)'\n")
+            if let allHTTPHeaderFields = request.allHTTPHeaderFields {
+                logString.append("Headers: [\n")
+                for (key, value) in allHTTPHeaderFields {
+                    logString.append("    \(key) : \(value)\n")
+                }
+                logString.append("]\n")
+            }
+            if let body = request.httpBody,
+               let str = String(data: body, encoding: .utf8) {
+                logString.append("Request Body : \(str)\n")
+            }
+            logString.append("------------------------\n")
+            if let response = response as? HTTPURLResponse {
+                logString.append("Status: \(response.statusCode)'\n")
+            }
             if  let object = try? JSONSerialization.jsonObject(with: data, options: []),
                 let json = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted),
                 let jsonString = String(data: json, encoding: .utf8) {
-                logHandler(jsonString)
+                logString.append("JSON: \(jsonString)")
             }
         }
+        
     }
     
-    private func logHeaders(_ urlRequest: URLRequest) {
-        if let allHTTPHeaderFields = urlRequest.allHTTPHeaderFields {
-            for (key, value) in allHTTPHeaderFields {
-                logHandler("  \(key) : \(value)")
-            }
-        }
-    }
-    
-    private func logBody(_ urlRequest: URLRequest) {
-        if let body = urlRequest.httpBody,
-           let str = String(data: body, encoding: .utf8) {
-            logHandler("  HttpBody : \(str)")
-        }
-    }
-    
-    private func logStatusCodeAndURL(_ urlResponse: HTTPURLResponse) {
-        if let url = urlResponse.url {
-            logHandler("\(urlResponse.statusCode) '\(url.absoluteString)'")
-        }
-    }
 }
