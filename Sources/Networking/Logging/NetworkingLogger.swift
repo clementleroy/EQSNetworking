@@ -37,11 +37,12 @@ class NetworkingLogger {
             }
             logString.append("------------------------\n")
             if let response = response as? HTTPURLResponse {
-                logString.append("Status: \(response.statusCode)'\n")
+                logString.append("Status: \(response.statusCode)\n")
             }
-            if  let object = try? JSONSerialization.jsonObject(with: data, options: []),
-                let json = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted),
-                let jsonString = String(data: json, encoding: .utf8) {
+            if logLevels == .debug,
+               let object = try? JSONSerialization.jsonObject(with: data, options: []),
+               let json = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted),
+               let jsonString = String(data: json, encoding: .utf8) {
                 logString.append("JSON: \(jsonString)")
             }
             logHandler(logString)
